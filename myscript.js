@@ -6,9 +6,9 @@ varDebugger();
 let buttons = document.querySelectorAll(".btn");
 buttons.forEach((btn) => {
   btn.addEventListener("click", function (x) {
-    xClass = this.className;
-    xText = this.textContent;
-    xId = this.id;
+    let xClass = this.className;
+    let xText = this.textContent;
+    let xId = this.id;
     if (xId === "ac") {
       console.log("mphke ac");
       number1 = "";
@@ -39,19 +39,22 @@ buttons.forEach((btn) => {
         document.querySelector("#userInput").innerHTML = String(number1);
       }
       varDebugger();
-    } else if (xClass.includes("nmbr") && operator === undefined) {
+    }
+    if (xClass.includes("nmbr") && operator === undefined) {
       getFirstNumber(xText);
     } else if (xClass.includes("opr") && xId != "equal") {
-      operator = xText;
-      varDebugger();
-      if (number2 != "") {
-        operate(number1, operator, number2);
-      }
+        if (operator && number2 !== "") {
+          operate(number1, operator, number2);
+        }
+        operator = xText;
+        varDebugger();
     } else if (xClass.includes("nmbr") && operator != undefined) {
       getSecondNumber(xText);
-    } else {
-      varDebugger();
-      operate(number1, operator, number2);
+    } else if (xId === "equal") {
+        if (operator && number2 !== "") {
+          operate(number1, operator, number2);
+          operator = undefined; // reset για νέο υπολογισμό
+        }
     }
   });
 });
